@@ -7,7 +7,7 @@ received by a chirp sub-bottom profiler (SBP)
 when it insonifies resonators on the seafloor.
 
 Created by: Margaret Morris, May 2022
-Last Edit: Margaret Morris, November 21, 2025
+Last Edit: Margaret Morris, January 13, 2026
 
 %}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -15,7 +15,7 @@ Last Edit: Margaret Morris, November 21, 2025
 %% Problem Setup:
 
 save_run = 0; % 1 to save | 0 no save. saves settings, resonator characteristics and seismic plot.
-save_path = "/Users/mam132/Dropbox/Archaeology_Active/SyntheticHaystack/model_output/";
+save_path = "../model_output/";
 save_tag = "_"+datestr(datetime('now'), 'yyyyMMdd_HHmmss');
 
 % % Chirp Pulse Setup % %
@@ -65,9 +65,6 @@ res_xs          = 1.25 + (1.5)*rand(1,n_resonators);      % [m] x position from 
 
 water_c         = 1500;         % [m/s] 1500 = speed of sound in water at 80F (1480 closer to 70 F)
 sediment_reflection_coeff = .9; % 0.43 for sediment (Bull Quinn & Dix, 1998, Table 1), higher for concrete
-
-% %%% NOTE not changing sound velocity in sediment 
-% sediment_c      = 1620;        % [m/s] speed of sound below seafloor
 
 res_characters  = table(res_amps', res_Qs', res_alpha', res_depths', res_xs', 'VariableNames', ["res_amps", "res_Qs", "res_alpha", "res_depths", "res_xs"]);
 model_settings  = table(f_s, chirp_freq1, chirp_freq2, chirp_length, chirp_alpha, receive_length, sbp_dx, sbp_height, sbp_beamwidth, n_resonators, res_freq_min, res_freq_max, res_amp_min, res_amp_max, water_c, sediment_reflection_coeff);
