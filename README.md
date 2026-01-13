@@ -11,31 +11,31 @@ SyntheticHaystack.m is an idealized model developed in MATLAB to simulate a sub-
 
 Problem Setup: the user may specify the following
 
-save_run        = 1 to save | 0 no save. saves settings, resonator characteristics and seismic plot.
-save_path       = path for saving output
-f_s             = sampling frequency
-chirp_freq1     = start frequency of linear chirp sweep
-chirp_freq2     = end frequency of linear chirp sweep
-chirp_length    = duration of linear chirp sweep
-chirp_alpha     = alpha of chirp gaussian created by gausswin
-chirp_t         = time array of outgoing chirp
-receive_length  = duration of sbp receiving
-receive_t       = time array of received signal receive_t=0 at beginning of outgoing pulse
-sbp_dx          = step size for sbp
-sbp_x           = array defining horizontal path of sbp 
-sbp_height      = sbp height above seafloor
-sbp_beamwidth   = angle of half-max beam pattern from the sbp
-n_resonators    = number of resonators
-res_freq_min    = minimum resonance frequency
-res_freq_max    = maximum resonance frequency
-res_amps        = resonator amplitudes relative to the transmit pulse
-res_depths      = resonator depths below seafloor
-res_xs          = x positions of resonators from start of chirp path
-water_c         = speed of sound in water
-sediment_reflection_coeff = sediment reflection coefficient
+save_run        = 1 to save | 0 no save. saves settings, resonator characteristics and seismic plot; 
+save_path       = path for saving output; 
+f_s             = sampling frequency; 
+chirp_freq1     = start frequency of linear chirp sweep; 
+chirp_freq2     = end frequency of linear chirp sweep; 
+chirp_length    = duration of linear chirp sweep; 
+chirp_alpha     = alpha of chirp gaussian created by gausswin; 
+chirp_t         = time array of outgoing chirp; 
+receive_length  = duration of sbp receiving; 
+receive_t       = time array of received signal receive_t=0 at beginning of outgoing pulse; 
+sbp_dx          = step size for sbp; 
+sbp_x           = array defining horizontal path of sbp; 
+sbp_height      = sbp height above seafloor; 
+sbp_beamwidth   = angle of half-max beam pattern from the sbp; 
+n_resonators    = number of resonators; 
+res_freq_min    = minimum resonance frequency; 
+res_freq_max    = maximum resonance frequency; 
+res_amps        = resonator amplitudes relative to the transmit pulse; 
+res_depths      = resonator depths below seafloor; 
+res_xs          = x positions of resonators from start of chirp path; 
+water_c         = speed of sound in water; 
+sediment_reflection_coeff = sediment reflection coefficient; 
 
 Output:
-text file containing resonance characteristics
-text file containing model settings
-2D sbp profile
+text file containing resonance characteristics, 
+text file containing model settings, 
+2D sbp profile, 
 
