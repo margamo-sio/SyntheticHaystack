@@ -6,6 +6,10 @@ SyntheticHaystack.m is designed to model the signal
 received by a chirp sub-bottom profiler (SBP) 
 when it insonifies resonators on the seafloor.
 
+This version assumes that the resonators 
+amplify a portion of the chirp signal centered
+on their resonance frequency.
+
 Created by: Margaret Morris, May 2022
 Last Edit: Margaret Morris, January 13, 2026
 
