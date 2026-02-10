@@ -34,9 +34,9 @@ receive_t       = time array of received signal receive_t=0 at beginning of outg
 water_c         = speed of sound in water; 
 sediment_reflection_coeff = sediment reflection coefficient; 
 
-res_freqs       = resonator resonance frequencies
+res_freqs       = resonator resonance frequencies;
 res_amps        = resonator amplitudes relative to the transmit pulse; 
-res_Qs          = resonator quality factor, or Q-value
+res_Qs          = resonator quality factor, or Q-value;
 res_depths      = resonator depths below seafloor; 
 res_xs          = x positions of resonators from start of chirp path; 
 
