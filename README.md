@@ -5,7 +5,7 @@ SyntheticHaystack.m is an idealized model developed in MATLAB to simulate a sub-
 3. The resonator responses are calculated for each resonator in the model. 
         3.1 Time is calculated as the time that the resonance frequency from the chirp would reach the resonator position if the pulse were heading straight from the SBP to the resonator. 
         3.2 The resonance amplitude is equal to the SBP beam pattern at the direct-incidence angle squared (transmitting and receiving beam pattern are identical due to the principal of reciprocity) times the specified resonator amplitude coefficient times the resonator beam pattern. The resonator beam pattern is a predefined function of polar angle phi. Spherical spreading is also taken into account on the incident and return trips. 
-        3.3 The resonance response is created by multiplying the outgoing chirp pulse by a gaussian window of the calculated amplitude centered around the time at which the resonance frequency from the chirp would reach the resonator position and get back to the SBP. The length of the gaussian is a function of resonator Q.
+        3.3 The resonance response is created by generating a sine wave with the object's resonance frequency and an exponential decay envelope dependent on the resonant object's Q value. The sine wave is matched to the phase of the chirp beginning at the time at which the resonance frequency from the chirp would reach the resonator position and get back to the SBP.
 4. The received signal is set equal to the scattered wave plus the sum of the waves from each resonator. 
 5. The final signal} is  calculated from the outgoing pulse cross-correlated with the received signal (backscattered wave + resonator responses).
 
@@ -13,26 +13,33 @@ Problem Setup: the user may specify the following
 
 save_run        = 1 to save | 0 no save. saves settings, resonator characteristics and seismic plot; 
 save_path       = path for saving output; 
-f_s             = sampling frequency; 
+reload_model_settings = load chirp and environment settings from a previous model;
+reload_res_settings   = load resonator settings from a previous model;
+
+model settings include:
+sbp_dx          = step size for sbp; 
+sbp_dx_max      = horizontal path of sbp will fo grom 0 to sbp_x_max;
+sbp_x           = array defining horizontal path of sbp; 
+sbp_height      = sbp height above seafloor; 
+sbp_beamwidth   = angle of half-max beam pattern from the sbp; 
+f_s             = sampling frequency of modeled pulse (1/dt);
+f_s_receive     = sampling frequency of received pulse (1/dt_receive);
 chirp_freq1     = start frequency of linear chirp sweep; 
 chirp_freq2     = end frequency of linear chirp sweep; 
 chirp_length    = duration of linear chirp sweep; 
 chirp_alpha     = alpha of chirp gaussian created by gausswin; 
 chirp_t         = time array of outgoing chirp; 
 receive_length  = duration of sbp receiving; 
-receive_t       = time array of received signal receive_t=0 at beginning of outgoing pulse; 
-sbp_dx          = step size for sbp; 
-sbp_x           = array defining horizontal path of sbp; 
-sbp_height      = sbp height above seafloor; 
-sbp_beamwidth   = angle of half-max beam pattern from the sbp; 
-n_resonators    = number of resonators; 
-res_freq_min    = minimum resonance frequency; 
-res_freq_max    = maximum resonance frequency; 
-res_amps        = resonator amplitudes relative to the transmit pulse; 
-res_depths      = resonator depths below seafloor; 
-res_xs          = x positions of resonators from start of chirp path; 
+receive_t       = time array of received signal receive_t=0 at beginning of outgoing pulse;
 water_c         = speed of sound in water; 
 sediment_reflection_coeff = sediment reflection coefficient; 
+
+res_freqs       = resonator resonance frequencies
+res_amps        = resonator amplitudes relative to the transmit pulse; 
+res_Qs          = resonator quality factor, or Q-value
+res_depths      = resonator depths below seafloor; 
+res_xs          = x positions of resonators from start of chirp path; 
+
 
 Output:
 text file containing resonance characteristics, 
