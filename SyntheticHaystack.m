@@ -255,11 +255,11 @@ for ind_sbp_x = 1:length(sbp_x)
 
     % % subsample and resample received wave to mimic lower sampling frequency
     receive_wave = receive_waves(:,ind_sbp_x);
-    [receive_wave_subsampled, t_subsampled] = resample(receive_wave, receive_t, f_s_receive);
+    [receive_wave_subsampled, t_subsampled] = resample(receive_wave, receive_t, f_s_receive, 10, 100);
     [receive_wave_resampled, t_resampled] = resample(receive_wave_subsampled, t_subsampled, f_s);
 
     % % amplitude is cross-correlated return
-    % xcorr_amp = xcorr(receive_waves(:,ind_sbp_x).', chirp_pulse);
+    % xcorr_amp = xcorr(receive_wave_resampled.', chirp_pulse);
     % receive_amp(:,ind_sbp_x) = xcorr_amp(numel(receive_t):end);
 
     % % fft method matched filter
