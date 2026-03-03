@@ -19,16 +19,16 @@ Last Edit: Margaret Morris, February 6, 2026
 
 %% Problem Setup:
 
-save_run = 0; % 1 to save | 0 no save. saves settings, resonator characteristics and seismic plot.
-save_path = "/SyntheticHaystack/model_output/";
+save_run = 1; % 1 to save | 0 no save. saves settings, resonator characteristics and seismic plot.
+save_path = "/Users/mam132/Dropbox/Archaeology_Active/SyntheticHaystack/model_output/";
 save_tag = "_"+datestr(datetime('now'), 'yyyyMMdd_HHmmss');
 
 reload_model_settings = 0; % 1 to reload model settings for a previously saved model, 0 to run new, other numbers will repeat last run
 reload_res_settings = 0;   % 1 to reload resonator settings for a previously saved model, 0 to run new, other numbers will repeat last run
-run_load = '416kHz_20264210_140230';
-run_path = '/SyntheticHaystack/model_output/';
+run_load = '420kHz_20265909_150207';
+run_path = '/Users/mam132/Dropbox/Archaeology_Active/SyntheticHaystack/model_output/';
 
-datapath_load = '/SyntheticHaystack/data/'; % path to measured frequency distributions
+datapath_load = '/Users/mam132/Dropbox/Archaeology_Active/LithicDetection/'; % path to measured frequency distributions
 
 if reload_model_settings == 1 % load a previous run's model settings
     model_settings = readtable([run_path 'model_settings_' run_load '.txt']);
@@ -58,7 +58,7 @@ if reload_model_settings == 0 % choose new model settings
     sbp_x_max       = 10;          % [m] horizontal path of sbp will go from 0 to sbp_x_max
     sbp_height      = 10.6;        % [m] sbp height above seafloor
     sbp_beamwidth   = 60*pi/180;   % [rad] angle of half-max (-3dB) beam pattern (60 deg means half max at +/-30 deg);
-    % ^should be 60 deg (4-24kHz), 68 deg (4-20 kHz), or ?? deg (4-16 kHz) according to https://ieeexplore.ieee.org/document/8364545 (crocker et al 2017)
+    % ^should be 60 deg (4-24kHz), 68 deg (4-20 kHz), or ?76? deg (4-16 kHz) according to https://ieeexplore.ieee.org/document/8364545 (crocker et al 2017)
     chirp_freq1     = 4000;   	 % [Hz] start frequency of linear chirp sweep
     chirp_freq2     = 24000;   	 % [Hz]   end frequency of linear chirp sweep
     chirp_length    = 10e-3;   	 % [s]         duration of linear chirp sweep
@@ -66,7 +66,7 @@ if reload_model_settings == 0 % choose new model settings
 
     dt_receive  = .023e-3;       % [s] time step from SEGY files is 0.0230 ms
     f_s_receive = 1/dt_receive;  % [Hz] sampling frequency for received signal
-    f_s         = f_s_receive*4; % [Hz] temporal resolution of modeled pulse transmission
+    f_s         = 480000; % [Hz] temporal resolution of modeled pulse transmission
     dt          = 1/f_s;	     % [s]  temporal resolution of modeled pulse transmission
     
     receive_length  = 100e-3;    % [s] duration of sbp receiving
@@ -101,8 +101,8 @@ if reload_res_settings == 0 % choose new resonator settings
     res_freqs_rand_normal = [abs(normrnd(0, res_freq_stdev_rand_normal, [1, n_resonators_rand_normal]) + res_freq_mean_rand_normal)];
 
     % to make frequencies with exponentially increasing distribution
-    n_resonators_rand_exp = 500;
-    res_freqs_extra_rand_exp = 24000 - exprnd(4000, [1,5000]); res_freqs_extra_rand_exp(res_freqs_extra_rand_exp<0) = [];
+    n_resonators_rand_exp = 1000;
+    res_freqs_extra_rand_exp = 24000 - exprnd(8000, [1,50000]); res_freqs_extra_rand_exp(res_freqs_extra_rand_exp<6000) = [];
     res_freqs_rand_exp = res_freqs_extra_rand_exp(1:n_resonators_rand_exp);
 
     % to make resonators from measured frequency distributions
@@ -112,7 +112,7 @@ if reload_res_settings == 0 % choose new resonator settings
     res_freqs_loaded = [lwt_C.Freq1_wet_Hz', lwt_O.Freq1_wet_Hz', lwt_M.Freq1_wet_Hz'];
     
 % % % Choose which resonator distribution above to use here % % %
-    res_freqs = [res_freqs_rand_exp res_freqs_loaded]; % set equal to distribution above or combine distributions
+    res_freqs = [res_freqs_rand_exp]; % set equal to distribution above or combine distributions
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
     n_resonators = length(res_freqs);
@@ -258,12 +258,12 @@ for ind_sbp_x = 1:length(sbp_x)
     [receive_wave_subsampled, t_subsampled] = resample(receive_wave, receive_t, f_s_receive, 10, 100);
     [receive_wave_resampled, t_resampled] = resample(receive_wave_subsampled, t_subsampled, f_s);
 
-    % % amplitude is cross-correlated return
+    % % % amplitude is cross-correlated return
     % xcorr_amp = xcorr(receive_wave_resampled.', chirp_pulse);
     % receive_amp(:,ind_sbp_x) = xcorr_amp(numel(receive_t):end);
 
     % % fft method matched filter
-    receive_wave_padded = [receive_wave_resampled.', zeros(1,length(chirp_pulse)-1)];
+    receive_wave_padded = [receive_wave_resampled.', zeros(1,length(chirp_pulse_padded) - length(receive_wave_resampled))];
     receive_amp_padded = ifft(fft(receive_wave_padded).*fft(fliplr(conj(chirp_pulse_padded)))).';
     receive_amp(:,ind_sbp_x) = receive_amp_padded(1:length(receive_waves(:,ind_sbp_x)),1);
 
